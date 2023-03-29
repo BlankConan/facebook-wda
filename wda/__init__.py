@@ -889,7 +889,63 @@ class BaseClient(object):
         """
         return self._session_http.post('/wda/deactivateApp',
                                        dict(duration=duration))
+    
+    def app_mock_ab(self, data):
+        """Mock app abtest with k/v pairs {feature_name:value}
+        
+        Keyword arguments:
+        argument -- data dict
+        {
+            feature_name1:value1,
+            feature_name2:value2
+        }
+        """
+        return self._session_http.post('/wda/app/mock/ab',data)
+    
+    def app_unmock_ab(self, featurename):
+        """Unmock app abtest with featurename list [feature_name1,feature_name2], Remove all if list is empty 
+        
+        Keyword arguments:
+        argument -- featurename:list[]
+        [
+            feature_name1,
+            feature_name2
+        ]
+        """
+        return self._session_http.post('/wda/app/unmock/ab', featurename)
+    
+    def app_mock_data_json_file(self, data):
+        """Mock app abtest with k/v pairs {path:json file name}
+        
+        Keyword arguments:
+        argument -- data dict
 
+        """
+        return self._session_http.post('/wda/app/mock/data/file', data)
+    
+    def app_mock_data_json_data(self, data):
+        """Mock app abtest with json responce
+        
+        Keyword arguments:
+        argument -- data dict
+
+        """
+        return self._session_http.post('/wda/app/mock/data/json', data)
+    
+    def app_ummock_data(self, data):
+        """Unmock url paths, Remove all if data is empty
+        
+        Keyword arguments:
+        argument -- 
+        data : [path1, path2]
+    
+        """
+        return self._session_http.post('/wda/app/unmock/data', data)
+    
+    def app_get_case_log(self):
+        """Get case log from app"""
+        return self._session_http.get('/wda/app/case/log')
+    
     def tap(self, x, y):
         if _is_tmq_platform() and os.environ.get(
                 "TMQ_ORIGIN") == "civita":  # in TMQ and belong to MDS
